@@ -7,6 +7,9 @@ import info
 import welcome
 import bredis
 
+#Config
+"299937746:AAGm8GgwBzipRKV-VsJuoenaFeuZZkig4rA"
+
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
@@ -45,12 +48,11 @@ def test(bot, update):
     erm = str(update.message.chat.type)
     update.message.reply_text(erm, quote=False)
 def add(bot, update):
+    fr = update.message.from_user
+    bredis.adduser(fr.id, fr.first_name, fr.last_name, fr.username)
     c = update.message.chat
     if update.message.chat.type != 'private':
         bredis.addgroup(c.id, c.title, c.username)
-    elif update.message.chat.type == 'private':
-        fr = update.message.from_user
-        bredis.adduser(fr.id, fr.first_name, fr.last_name, fr.username)
     else:
         return None
 
@@ -63,7 +65,7 @@ def getwelc(bot, update, args):
 
 def main():
     # Create the EventHandler and pass it your bot's token.
-    updater = Updater("299937746:AAGm8GgwBzipRKV-VsJuoenaFeuZZkig4rA")
+    updater = Updater(TOKEN)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
