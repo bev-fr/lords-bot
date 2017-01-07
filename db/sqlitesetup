@@ -1,0 +1,10 @@
+
+
+
+#Creating Tables
+CREATE TABLE Player(Id INTEGER PRIMARY KEY, TelegramId INT UNIQUE, Name TEXT, UserName TEXT, Welcome TEXT);
+
+
+#just needed a place to put this
+INSERT OR REPLACE INTO Player(TelegramId, Name, UserName, Welcome) VALUES(4, 'test', 'ejfld', '4');
+
