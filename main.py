@@ -57,10 +57,13 @@ def add(bot, update):
         return None
 
 def getwelc(bot, update, args):
-    uid = int(args[0])
-    welc = bredis.getwelc(uid)
-    msg = "This is `{0}`'s welcome message:\n{1}".format(uid, welc)
-    update.message.reply_text(msg, quote=False, parse_mode='Markdown')
+    if update.message.from_user.id = 81772130:
+        uid = int(args[0])
+        welc = bredis.getwelc(uid)
+        msg = "This is `{0}`'s welcome message:\n{1}".format(uid, welc)
+        update.message.reply_text(msg, quote=False, parse_mode='Markdown')
+    else:
+        update.message.reply_text('who are you? my lordy told me never to talk to strangers... *runs away*', quote=False)
 
 
 def main():
