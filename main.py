@@ -6,13 +6,28 @@ import logging
 import info 
 import welcome
 import bredis
+import yaml
 
 #Config
-TOKEN = "299937746:AAGm8GgwBzipRKV-VsJuoenaFeuZZkig4rA"
+
+#Bot Configuration
+with open("config.yml", 'r') as configfile:
+    cfg = yaml.load(configfile)
+
+for section in cfg:
+    TOKEN = str(cfg['apitoken'])
+    log = str(cfg['log'])
+    creator = int(cfg['creator-id'])
+
 
 # Enable logging
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+logging.basicConfig(format= u'%(asctime)-s %(levelname)s [%(name)s]: %(message)s',
                     level=logging.INFO)
+logger = logging.getLogger(__name__)
+hdlr = logging.FileHandler(log)
+formatter = logging.Formatter(u'%(asctime)-s %(levelname)s [%(name)s]: %(message)s')
+hdlr.setFormatter(formatter)
+logger.addHandler(hdlr) 
 
 logger = logging.getLogger(__name__)
 
@@ -37,16 +52,17 @@ def echo(bot, update):
 def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))
 
-def test(bot, update):
-    #update.message.reply_text('Test failed. Try again mf')
-    test = bredis.exists(update.message.chat.id) #bredis.exists(update.message.from_user.id)
+def addsuperadmin(bot, update, args):
+    if creator == update.message.from_user.id:
+        user = bredis.info(args[0])
+        bredis.addsuperadmin(args)
+        update.message.reply_text(user, quote=False)
+    else:
+        update.message.reply_text('who are you? my lordy told me never to talk to strangers... *runs away*', quote=False)
 
-#    if test == 1:
-#        update.message.reply_text(bredis.getwelc(update.message.from_user.id), quote=False)
-#    else:
-#        return True
-    erm = str(update.message.chat.type)
-    update.message.reply_text(erm, quote=False)
+def test(bot, update, args):
+    update.message.reply_text('Test failed. Try again mf')
+
 def add(bot, update):
     fr = update.message.from_user
     bredis.adduser(fr.id, fr.first_name, fr.last_name, fr.username)
@@ -77,9 +93,11 @@ def main():
     #dp.add_handler(CommandHandler("start", start))
     #dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("u", info.info_user))
-    dp.add_handler(CommandHandler("test", test))
+    dp.add_handler(CommandHandler("test", test, pass_args=True))
     dp.add_handler(CommandHandler("setwelc", welcome.set, pass_args=True))
     dp.add_handler(CommandHandler("getwelc", getwelc, pass_args=True))
+    dp.add_handler(CommandHandler("addadmin", addsuperadmin, pass_args=True))
+
 
 
 
