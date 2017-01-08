@@ -1,7 +1,7 @@
 import bredis
 
 def set(bot, update, args):
-    if update.message.from_user.id in [81772130, 252424970]:
+    if update.message.from_user.id in [81772130, 252424970, 259482660]:
         uid = args[0]
         del args[0]
         print(args)
