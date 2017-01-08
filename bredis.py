@@ -11,15 +11,15 @@ r.hmset('Player:0', {'username': 'test', 'fname': 'test', 'lname': 'test', 'welc
 val = r.hmget('Player:0', 'welcome')
 
 def setwelc(msg, uid):
-    if uid >= 0:
+    if int(uid) >= 0:
         r.hmset(str('Player:{0}'.format(uid)), {'welcome': msg})
-    if else:
+    else:
         r.hmset(str('Group:{0}'.format(uid)), {'welcome': msg})
 
 def getwelc(uid):
-    if uid >= 0:
+    if int(uid) >= 0:
         return r.hget('Player:{0}'.format(uid), 'welcome')
-    if else:
+    else:
         return r.hget('Group:{0}'.format(uid), 'welcome')
 
 def exists(uid):

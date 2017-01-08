@@ -25,7 +25,7 @@ def msg(bot, update):
     uid = update.message.new_chat_member.id
     welc = "{0} `({1})`".format(rawwelc, uid)
 
-    qroupwelc = bredsis.getwelc(update.message.chat.id)
+    qroupwelc = bredis.getwelc(update.message.chat.id)
 
 
     if rawwelc != None: #bredis.exists(update.message.new_chat_member.id) == 1:
