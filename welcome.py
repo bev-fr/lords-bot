@@ -36,5 +36,5 @@ def msg(bot, update):
             update.message.reply_text(''.join(gwelc[update.message.chat.id]), quote=False, parse_mode='Markdown')
 
         else:
-            update.message.reply_text('Please contact @benthecat to set a welcome message for ur group, as he is way to lazy too make a way for you to do it', quote=False, parse_mode='Markdown')
+            return None #update.message.reply_text('Please contact @benthecat to set a welcome message for ur group, as he is way to lazy too make a way for you to do it', quote=False, parse_mode='Markdown')
 
