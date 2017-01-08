@@ -8,7 +8,7 @@ import welcome
 import bredis
 
 #Config
-TOKEN = "190871990:AAGkxombmZIPIWSWPEGePfBER0TnQ_rQf70"
+TOKEN = "299937746:AAGm8GgwBzipRKV-VsJuoenaFeuZZkig4rA"
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
