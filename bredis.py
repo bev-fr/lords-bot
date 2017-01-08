@@ -40,7 +40,7 @@ def addsuperadmin(uid):
     r.sadd('superadmins', uid[0])
 
 def isSuperAdmin(uid):
-    if r.sismember(superadmins, uid) == 1:
+    if r.sismember("superadmins", uid) == 1:
         return True
     else: 
         return False
