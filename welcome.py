@@ -1,7 +1,7 @@
 import bredis
 
 def set(bot, update, args):
-    if update.message.from_user.id in [81772130, 252424970, 259482660]:
+    if update.message.from_user.id in [81772130, 252424970, 259482660, 106665913]:
         uid = args[0]
         del args[0]
         print(args)
@@ -24,6 +24,8 @@ def msg(bot, update):
     rawwelc = bredis.getwelc(update.message.new_chat_member.id)
     uid = update.message.new_chat_member.id
     welc = "{0} `({1})`".format(rawwelc, uid)
+
+    qroupwelc = bredsis.getwelc(update.message.chat.id)
 
 
     if rawwelc != None: #bredis.exists(update.message.new_chat_member.id) == 1:
