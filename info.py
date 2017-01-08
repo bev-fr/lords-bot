@@ -17,12 +17,12 @@ def info_user(bot, update):
 	resp = []
 	if user.username:
 		resp.append('@{}'.format(user.username))
-	resp.append('ID: {}'.format(user.id))
+	resp.append('ID: <code>{}</code>'.format(user.id))
 	resp.append('First: {}'.format(user.first_name))
 	if user.last_name:
 		resp.append('Last: {}'.format(user.last_name))
 	resp = '\n'.join(resp)
-	bot.send_message(update.message.chat_id, resp)
+	bot.send_message(update.message.chat_id, resp, parse_mode='Markdown')
 
 def info_chat(bot, update):
 	chat = update.message.chat
