@@ -2,7 +2,7 @@ import bredis
 
 def set(bot, update, args):
     uid = update.message.from_user.id 
-    isAdmin = bredis.isSuperSdmin()
+    isAdmin = bredis.isSuperAdmin()
     if isAdmin(uid) is True:
         uid = args[0]
         del args[0]
