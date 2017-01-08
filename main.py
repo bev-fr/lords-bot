@@ -8,7 +8,7 @@ import welcome
 import bredis
 
 #Config
-"299937746:AAGm8GgwBzipRKV-VsJuoenaFeuZZkig4rA"
+TOKEN = "190871990:AAGkxombmZIPIWSWPEGePfBER0TnQ_rQf70"
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -57,7 +57,7 @@ def add(bot, update):
         return None
 
 def getwelc(bot, update, args):
-    if update.message.from_user.id = 81772130:
+    if update.message.from_user.id == 81772130:
         uid = int(args[0])
         welc = bredis.getwelc(uid)
         msg = "This is `{0}`'s welcome message:\n{1}".format(uid, welc)
