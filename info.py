@@ -22,7 +22,7 @@ def info_user(bot, update):
 	if user.last_name:
 		resp.append('Last: {}'.format(user.last_name))
 	resp = '\n'.join(resp)
-	bot.send_message(update.message.chat_id, resp, parse_mode='Markdown')
+	bot.send_message(update.message.chat_id, resp, parse_mode='HTML')
 
 def info_chat(bot, update):
 	chat = update.message.chat
