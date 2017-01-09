@@ -16,7 +16,7 @@ def set(bot, update, args):
 
 
 def get(bot, update, args):
-    isAdmin = bredis.isSuperAdmin(args[0])
+    isAdmin = bredis.isSuperAdmin(update.message.from_user.id)
     if isAdmin is True:
         uid = int(args[0])
         welc = bredis.getwelc(uid)
