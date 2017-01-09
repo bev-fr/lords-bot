@@ -72,14 +72,6 @@ def add(bot, update):
     else:
         return None
 
-def getwelc(bot, update, args):
-    if update.message.from_user.id == 81772130:
-        uid = int(args[0])
-        welc = bredis.getwelc(uid)
-        msg = "This is `{0}`'s welcome message:\n{1}".format(uid, welc)
-        update.message.reply_text(msg, quote=False, parse_mode='Markdown')
-    else:
-        update.message.reply_text('who are you? my lordy told me never to talk to strangers... *runs away*', quote=False)
 
 
 def main():
@@ -95,7 +87,7 @@ def main():
     dp.add_handler(CommandHandler("u", info.info_user))
     dp.add_handler(CommandHandler("test", test, pass_args=True))
     dp.add_handler(CommandHandler("setwelc", welcome.set, pass_args=True))
-    dp.add_handler(CommandHandler("getwelc", getwelc, pass_args=True))
+    dp.add_handler(CommandHandler("getwelc", welcome.get, pass_args=True))
     dp.add_handler(CommandHandler("addadmin", addsuperadmin, pass_args=True))
 
 

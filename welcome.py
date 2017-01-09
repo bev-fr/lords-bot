@@ -14,6 +14,17 @@ def set(bot, update, args):
     else:
         update.message.reply_text('who are you? my lordy told me never to talk to strangers... *runs away*', quote=False)
 
+
+def get(bot, update, args):
+    isAdmin = bredis.isSuperAdmin(uid)
+    if isAdmin is True:
+        uid = int(args[0])
+        welc = bredis.getwelc(uid)
+        msg = "This is `{0}`'s welcome message:\n{1}".format(uid, welc)
+        update.message.reply_text(msg, quote=False, parse_mode='Markdown')
+    else:
+        update.message.reply_text('who are you? my lordy told me never to talk to strangers... *runs away*', quote=False)
+
 #def load():
 #    f = open('welc.yml')
 #    welcs = yaml.safe_load(f)
