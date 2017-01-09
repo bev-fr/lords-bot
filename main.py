@@ -52,6 +52,14 @@ def echo(bot, update):
 def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))
 
+def send(bot, update, args):
+    if creator == update.message.from_user.id:
+        gid = args[0]
+        del args[0]
+        bot.sendMessage(gid, ' '.join(args))
+    else:
+        update.message.reply_text('who are you? my lordy told me never to talk to strangers... *runs away*', quote=False)
+
 def addsuperadmin(bot, update, args):
     if creator == update.message.from_user.id:
         user = bredis.info(args[0])
@@ -89,6 +97,8 @@ def main():
     dp.add_handler(CommandHandler("setwelc", welcome.set, pass_args=True))
     dp.add_handler(CommandHandler("getwelc", welcome.get, pass_args=True))
     dp.add_handler(CommandHandler("addadmin", addsuperadmin, pass_args=True))
+    dp.add_handler(CommandHandler("bsend", send, pass_args=True))
+
 
 
 
