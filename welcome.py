@@ -1,4 +1,6 @@
 import bredis
+from mwt import MWT
+
 
 def set(bot, update, args):
     uid = update.message.from_user.id 
@@ -25,31 +27,42 @@ def get(bot, update, args):
     else:
         update.message.reply_text('who are you? my lordy told me never to talk to strangers... *runs away*', quote=False)
 
-#def load():
-#    f = open('welc.yml')
-#    welcs = yaml.safe_load(f)
-#    f.close()
-#    print (welcs)
-
+def groupset(bot, update, args):
+    user = update.message.from_user
+    gid = update.message.chat.id
+    if update.message.from_user.id in get_admin_ids(bot, update.message.chat_id):
+        bredis.setwelc(' '.join(args), gid)
+        msg = "Group welcome message set to:\n{0}" 
+        update.message.reply_text(msg.format(bredis.getwelc(gid)), quote=False, parse_mode='HTML')
+    else:
+        update.message.reply_text('uhh...{0} i dont think youre an admin...'.format(update.message.from_user.first_name), quote=False, parse_mode='HTML')
+        return None
+        
+@MWT(timeout=60*60)
+def get_admin_ids(bot, chat_id):
+        """Returns a list of admin IDs for a given chat. Results are cached for 1 hour."""
+        return [admin.user.id for admin in bot.getChatAdministrators(chat_id)]
 
 def msg(bot, update):
-    gwelc = {-1001062976534: ("Oh no, it's *", update.message.new_chat_member.first_name, "*! Everyone hide! We have ", str(update.message.new_chat_member.id), " nanoseconds to run!")}
-    rawwelc = bredis.getwelc(update.message.new_chat_member.id)
-    uid = update.message.new_chat_member.id
+    user = update.message.new_chat_member
+    rawwelc = bredis.getwelc(user.id)
+    uid = user.id
     welc = "{0} `({1})`".format(rawwelc, uid)
+    exists = bredis.exists(user.id)
 
-    qroupwelc = bredis.getwelc(update.message.chat.id)
+    #qroupwelc = bredis.getwelc(update.message.chat.id)
 
 
-    if rawwelc != None: #bredis.exists(update.message.new_chat_member.id) == 1:
-        update.message.reply_text(welc, quote=False, parse_mode='Markdown')
+    if rawwelc != None and exists == 1: 
+        welc = "{0} `({1})`".format(rawwelc, uid)
+        update.message.reply_text(welc, quote=False)#, parse_mode='HTML')
 
 
     else: 
-        if update.message.chat.id in gwelc:
-            #bredis.exists(update.message.chat.id) == 1:
-            update.message.reply_text(''.join(gwelc[update.message.chat.id]), quote=False, parse_mode='Markdown')
+        groupwelc = bredis.getwelc(update.message.chat.id).format(fname=user.first_name, lname=user.last_name, uid=user.id, username=user.username)
+        if groupwelc != None:
+            update.message.reply_text(groupwelc, quote=False)#, parse_mode='HTML')
 
         else:
-            return None #update.message.reply_text('Please contact @benthecat to set a welcome message for ur group, as he is way to lazy too make a way for you to do it', quote=False, parse_mode='Markdown')
+            return None 
 
