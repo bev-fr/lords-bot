@@ -61,7 +61,10 @@ def msg(bot, update):
     else: 
         groupwelc = bredis.getwelc(update.message.chat.id).format(fname=user.first_name, lname=user.last_name, uid=user.id, username=user.username)
         if groupwelc != None:
-            update.message.reply_text(groupwelc, quote=False)#, parse_mode='HTML')
+            try:
+                update.message.reply_text(groupwelc, quote=False, parse_mode='Markdown')
+            except:
+                update.message.reply_text(groupwelc, quote=False)#, parse_mode='HTML')
 
         else:
             return None 
