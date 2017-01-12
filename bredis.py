@@ -15,11 +15,18 @@ def setwelc(msg, uid):
     else:
         r.hmset(str('Group:{0}'.format(uid)), {'welcome': msg})
 
+def remwelc(uid):
+    if int(uid) >= 0:
+        r.hdel(str('Player:{0}'.format(uid)), 'welcome')
+    else:
+        r.hdel(str('Group:{0}'.format(uid)), 'welcome')
+
 def getwelc(uid):
     if int(uid) >= 0:
         return r.hget('Player:{0}'.format(uid), 'welcome')
     else:
         return r.hget('Group:{0}'.format(uid), 'welcome')
+
 
 def exists(uid):
     return r.exists('Player:{0}'.format(str(uid)))
@@ -31,6 +38,7 @@ def addgroup(gid, title, uname):
     r.hmset('Group:{0}'.format(gid), {'title': title, 'username': uname})
 
 def info(uid):
+    
     if int(uid) >= 0:
         return r.hgetall(str('Player:{0}'.format(uid)))
     else:

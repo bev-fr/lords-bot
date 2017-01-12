@@ -84,6 +84,7 @@ def main():
     dp.add_handler(CommandHandler("groupwelc", welcome.groupset, pass_args=True))
     dp.add_handler(CommandHandler("addadmin", superadmin.add, pass_args=True))
     dp.add_handler(CommandHandler("bsend", superadmin.send, pass_args=True))
+    dp.add_handler(CommandHandler("delwelc", welcome.rem, pass_args=True))
 
 
 

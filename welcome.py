@@ -16,6 +16,16 @@ def set(bot, update, args):
     else:
         update.message.reply_text('who are you? my lordy told me never to talk to strangers... *runs away*', quote=False)
 
+def rem(bot, update, args):
+    adminid = update.message.from_user.id 
+    isAdmin = bredis.isSuperAdmin(adminid)
+    if isAdmin is True:
+        uid = args[0]
+        bredis.remwelc(uid)
+        msg = "`{0}`'s welcome message deleted" 
+        update.message.reply_text(msg.format(uid), quote=False, parse_mode='Markdown')
+    else:
+        update.message.reply_text('who are you? my lordy told me never to talk to strangers... *runs away*', quote=False)
 
 def get(bot, update, args):
     isAdmin = bredis.isSuperAdmin(update.message.from_user.id)
