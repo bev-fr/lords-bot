@@ -65,7 +65,7 @@ def msg(bot, update):
 
     if rawwelc != None and exists == 1: 
         welc = "{0} `({1})`".format(rawwelc, uid)
-        update.message.reply_text(welc, quote=False)#, parse_mode='Markdown')
+        update.message.reply_text(welc, quote=False, parse_mode='Markdown')
 
 
     else: 
