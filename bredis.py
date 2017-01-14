@@ -49,12 +49,14 @@ def adduser(uid, fname, lname, uname):
 def addgroup(gid, title, uname):
     r.hmset('Group:{0}'.format(gid), {'title': title, 'username': uname})
 
+class superadmin:
+    def add(uid):
+        r.sadd('superadmins', uid[0])
 
-def addsuperadmin(uid):
-    r.sadd('superadmins', uid[0])
-
-def isSuperAdmin(uid):
-    if r.sismember("superadmins", uid) == 1:
-        return True
-    else: 
-        return False
+    def check(uid):
+        if r.sismember("superadmins", uid) == 1:
+            return True
+        else: 
+            return False
+    def get():
+        return r.smembers('superadmins')
