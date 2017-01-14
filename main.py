@@ -65,7 +65,8 @@ def add(bot, update):
     else:
         return None
 
-
+def get(bot, update, args):
+    update.message.reply_text(bredis.user.all(update.message.from_user.id))
 
 def main():
     # Create the EventHandler and pass it your bot's token.
@@ -85,6 +86,8 @@ def main():
     dp.add_handler(CommandHandler("addadmin", superadmin.add, pass_args=True))
     dp.add_handler(CommandHandler("bsend", superadmin.send, pass_args=True))
     dp.add_handler(CommandHandler("delwelc", welcome.rem, pass_args=True))
+    dp.add_handler(CommandHandler("getu", get, pass_args=True))
+
 
 
 

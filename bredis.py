@@ -9,6 +9,19 @@ r = redis.Redis(
 
 #r.hmset('Player:0', {'username': 'test', 'fname': 'test', 'lname': 'test', 'welcome': 'welcome test'})
 
+class user:
+    def all(uid):
+        if int(uid) >= 0:
+            return r.hgetall(str('Player:{0}'.format(uid)))
+        else:
+            return r.hgetall(str('Group:{0}'.format(uid)))
+        
+    def name(uid):
+        if int(uid) >= 0:
+            return r.hget(str('Player:{0}'.format(uid)), "fname")
+        else:
+            return r.hget(str('Group:{0}'.format(uid)), "title")
+
 def setwelc(msg, uid):
     if int(uid) >= 0:
         r.hmset(str('Player:{0}'.format(uid)), {'welcome': msg})
@@ -27,7 +40,6 @@ def getwelc(uid):
     else:
         return r.hget('Group:{0}'.format(uid), 'welcome')
 
-
 def exists(uid):
     return r.exists('Player:{0}'.format(str(uid)))
 
@@ -37,12 +49,6 @@ def adduser(uid, fname, lname, uname):
 def addgroup(gid, title, uname):
     r.hmset('Group:{0}'.format(gid), {'title': title, 'username': uname})
 
-def info(uid):
-    
-    if int(uid) >= 0:
-        return r.hgetall(str('Player:{0}'.format(uid)))
-    else:
-        return r.hgetall(str('Group:{0}'.format(uid)))
 
 def addsuperadmin(uid):
     r.sadd('superadmins', uid[0])
