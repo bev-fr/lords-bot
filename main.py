@@ -39,11 +39,11 @@ class WelcomeFilter(BaseFilter):
 welcome_filter = WelcomeFilter()
 
 def start(bot, update):
-    update.message.reply_text('Hi!')
+    update.message.reply_text('Hello, I am lil cat lord, a bot that wecomes users to groups. Use /help to learn about all my commands')
 
 
-def help(bot, update):
-    update.message.reply_text('Help!')
+def helpm(bot, update):
+    update.message.reply_text("User Commands:\n/u - Get info about the user \n\nGroup Admin Commands:\n/groupwelc - allows you to set the welcome message for the group. \n\nYou can use these variables to add info about the user into the welcome message:\n{uid} - the user's ID\n{fanme} - the user's first name\n{lname} - the user's last name\n{username} - the user's username \n\nCustom Welcomes: \nI can also do custom welcome messages please PM @benthecat to get one")
 
 
 def echo(bot, update):
@@ -57,6 +57,7 @@ def test(bot, update, args):
     update.message.reply_text('Test failed. Try again mf')
 
 def add(bot, update):
+    print(update.message.chat.id)
     fr = update.message.from_user
     bredis.adduser(fr.id, fr.first_name, fr.last_name, fr.username)
     c = update.message.chat
@@ -65,9 +66,6 @@ def add(bot, update):
     else:
         return None
 
-def get(bot, update, args):
-    update.message.reply_text(bredis.user.all(update.message.from_user.id))
-
 def main():
     # Create the EventHandler and pass it your bot's token.
     updater = Updater(TOKEN)
@@ -75,27 +73,28 @@ def main():
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
 
-    # on different commands - answer in Telegram
-    #dp.add_handler(CommandHandler("start", start))
-    #dp.add_handler(CommandHandler("help", help))
+    
+    #Commands
+    
+    #all users
     dp.add_handler(CommandHandler("u", info.info_user))
     dp.add_handler(CommandHandler("test", test, pass_args=True))
+    dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(CommandHandler("help", helpm))
+
+
+    #superadmin only
     dp.add_handler(CommandHandler("setwelc", welcome.set, pass_args=True))
     dp.add_handler(CommandHandler("getwelc", welcome.get, pass_args=True))
+    dp.add_handler(CommandHandler("delwelc", welcome.rem, pass_args=True))
+
+    #groupadmin only
     dp.add_handler(CommandHandler("groupwelc", welcome.groupset, pass_args=True))
+
+    #creator only
     dp.add_handler(CommandHandler("addadmin", superadmin.add, pass_args=True))
     dp.add_handler(CommandHandler("bsend", superadmin.send, pass_args=True))
-    dp.add_handler(CommandHandler("delwelc", welcome.rem, pass_args=True))
-    dp.add_handler(CommandHandler("getu", get, pass_args=True))
-
-
-
-
-
-
-
-
-
+    
     # non commands
     dp.add_handler(MessageHandler(welcome_filter, welcome.msg))
     dp.add_handler(MessageHandler(Filters.text, add))
