@@ -4,7 +4,7 @@ from mwt import MWT
 
 def set(bot, update, args):
     uid = update.message.from_user.id 
-    isAdmin = bredis.isSuperAdmin(uid)
+    isAdmin = bredis.superadmin.check(uid)
     if isAdmin is True:
         uid = args[0]
         del args[0]
@@ -18,7 +18,7 @@ def set(bot, update, args):
 
 def rem(bot, update, args):
     adminid = update.message.from_user.id 
-    isAdmin = bredis.isSuperAdmin(adminid)
+    isAdmin = bredis.superadmin.check(adminid)
     if isAdmin is True:
         uid = args[0]
         bredis.remwelc(uid)
@@ -28,7 +28,7 @@ def rem(bot, update, args):
         update.message.reply_text('who are you? my lordy told me never to talk to strangers... *runs away*', quote=False)
 
 def get(bot, update, args):
-    isAdmin = bredis.isSuperAdmin(update.message.from_user.id)
+    isAdmin = bredis.superadmin.check(update.message.from_user.id)
     if isAdmin is True:
         uid = int(args[0])
         welc = bredis.getwelc(uid)

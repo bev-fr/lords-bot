@@ -21,6 +21,26 @@ class user:
             return r.hget(str('Player:{0}'.format(uid)), "fname")
         else:
             return r.hget(str('Group:{0}'.format(uid)), "title")
+    
+#    class welcome:
+#        def set
+#        r.hmset(str('Player:{0}'.format(uid)), {'welcome': msg})
+#
+#class group:
+#    def setwelc(msg, uid):
+#            r.hmset(str('Group:{0}'.format(uid)), {'welcome': msg})
+#
+#    def remwelc(uid):
+#        if int(uid) >= 0:
+#            r.hdel(str('Player:{0}'.format(uid)), 'welcome')
+#        else:
+#            r.hdel(str('Group:{0}'.format(uid)), 'welcome')
+#
+#    def getwelc(uid):
+#        if int(uid) >= 0:
+#            return r.hget('Player:{0}'.format(uid), 'welcome')
+#        else:
+#            return r.hget('Group:{0}'.format(uid), 'welcome')
 
 def setwelc(msg, uid):
     if int(uid) >= 0:

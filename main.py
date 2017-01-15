@@ -41,10 +41,8 @@ welcome_filter = WelcomeFilter()
 def start(bot, update):
     update.message.reply_text('Hello, I am lil cat lord, a bot that wecomes users to groups. Use /help to learn about all my commands')
 
-
 def helpm(bot, update):
     update.message.reply_text("User Commands:\n/u - Get info about the user \n\nGroup Admin Commands:\n/groupwelc - allows you to set the welcome message for the group. \n\nYou can use these variables to add info about the user into the welcome message:\n{uid} - the user's ID\n{fanme} - the user's first name\n{lname} - the user's last name\n{username} - the user's username \n\nCustom Welcomes: \nI can also do custom welcome messages please PM @benthecat to get one")
-
 
 def echo(bot, update):
     update.message.reply_text(update.message.text)
@@ -57,7 +55,6 @@ def test(bot, update, args):
     update.message.reply_text('Test failed. Try again mf')
 
 def add(bot, update):
-    print(update.message.chat.id)
     fr = update.message.from_user
     bredis.adduser(fr.id, fr.first_name, fr.last_name, fr.username)
     c = update.message.chat
@@ -94,6 +91,7 @@ def main():
     #creator only
     dp.add_handler(CommandHandler("addadmin", superadmin.add, pass_args=True))
     dp.add_handler(CommandHandler("bsend", superadmin.send, pass_args=True))
+    dp.add_handler(CommandHandler("adminsend", superadmin.adminsend, pass_args=True))
     
     # non commands
     dp.add_handler(MessageHandler(welcome_filter, welcome.msg))
