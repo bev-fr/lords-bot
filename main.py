@@ -42,7 +42,16 @@ def start(bot, update):
     update.message.reply_text('Hello, I am lil cat lord, a bot that wecomes users to groups. Use /help to learn about all my commands')
 
 def helpm(bot, update):
-    update.message.reply_text("User Commands:\n/u - Get info about the user \n\nGroup Admin Commands:\n/groupwelc - allows you to set the welcome message for the group. \n\nYou can use these variables to add info about the user into the welcome message:\n{uid} - the user's ID\n{fanme} - the user's first name\n{lname} - the user's last name\n{username} - the user's username \n\nCustom Welcomes: \nI can also do custom welcome messages please PM @benthecat to get one")
+    if update.message.chat.id > 0:
+        update.message.reply_text("User Commands:\n/u - Get info about the user \n\nGroup Admin Commands:\n/groupwelc - allows you to set the welcome message for the group. \n\nYou can use these variables to add info about the user into the welcome message:\n{uid} - the user's ID\n{fanme} - the user's first name\n{lname} - the user's last name\n{username} - the user's username \n\nCustom Welcomes: \nI can also do custom welcome messages please PM @benthecat to get one")
+    else:
+        try:
+            bot.sendMessage(update.message.from_user.id, "User Commands:\n/u - Get info about the user \n\nGroup Admin Commands:\n/groupwelc - allows you to set the welcome message for the group. \n\nYou can use these variables to add info about the user into the welcome message:\n{uid} - the user's ID\n{fanme} - the user's first name\n{lname} - the user's last name\n{username} - the user's username \n\nCustom Welcomes: \nI can also do custom welcome messages please PM @benthecat to get one")
+        except Unauthorized:
+            update.message.reply_text("Please PM me first ~")
+
+        update.message.reply_text("I have sent you a PM")
+
 
 def echo(bot, update):
     update.message.reply_text(update.message.text)
