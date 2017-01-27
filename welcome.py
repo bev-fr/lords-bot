@@ -30,7 +30,10 @@ def rem(bot, update, args):
 def get(bot, update, args):
     isAdmin = bredis.superadmin.check(update.message.from_user.id)
     if isAdmin is True:
-        uid = int(args[0])
+        if update.message.reply_to_message is not None:
+            uid = update.message.reply_to_message.from_user.id
+        else:
+            uid = int(args[0])
         welc = bredis.getwelc(uid)
         msg = "This is `{0}`'s welcome message:\n{1}".format(uid, welc)
         update.message.reply_text(msg, quote=False, parse_mode='Markdown')
