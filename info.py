@@ -25,7 +25,7 @@ def info_user(bot, update):
 	resp = []
 	if user.username:
 		resp.append(escape_markdown('@{}'.format(user.username)))
-	resp.append('ID: `{}`'.format(user.id))
+	resp.append('`{}`'.format(user.id))
 	resp.append(escape_markdown('First: {}'.format(user.first_name)))
 	if user.last_name:
 		resp.append(escape_markdown('Last: {}'.format(user.last_name)))
