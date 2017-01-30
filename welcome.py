@@ -13,6 +13,7 @@ def set(bot, update, args):
         bredis.setwelc(' '.join(args), uid)
         msg = "`{0}`'s welcome message set to:\n{1}" 
         update.message.reply_text(msg.format(uid, bredis.getwelc(uid)), quote=False, parse_mode='Markdown')
+        bot.forwardMessage("@benthelog", update.message.chat.id, update.message.message_id)
     else:
         update.message.reply_text('who are you? my lordy told me never to talk to strangers... *runs away*', quote=False)
 
