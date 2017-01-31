@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, BaseFilter
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, BaseFilter, InlineQueryHandler
 import logging
 import info 
 import welcome
@@ -38,19 +38,49 @@ class WelcomeFilter(BaseFilter):
             return bool(message.new_chat_member)
 welcome_filter = WelcomeFilter()
 
+
+def escape_markdown(text):
+    """Helper function to escape telegram markup symbols"""
+    escape_chars = '\*_`\['
+    return re.sub(r'([%s])' % escape_chars, r'\\\1', text)
+
+
 def start(bot, update):
     update.message.reply_text('Hello, I am lil cat lord, a bot that wecomes users to groups. Use /help to learn about all my commands')
+
 
 def helpm(bot, update):
     if update.message.chat.id > 0:
         update.message.reply_text("User Commands:\n/u - Get info about the user \n\nGroup Admin Commands:\n/groupwelc - allows you to set the welcome message for the group. \n\nYou can use these variables to add info about the user into the welcome message:\n{uid} - the user's ID\n{fanme} - the user's first name\n{lname} - the user's last name\n{username} - the user's username \n\nCustom Welcomes: \nI can also do custom welcome messages please PM @benthecat to get one")
     else:
         try:
-            bot.sendMessage(update.message.from_user.id, "User Commands:\n/u - Get info about the user \n\nGroup Admin Commands:\n/groupwelc - allows you to set the welcome message for the group. \n\nYou can use these variables to add info about the user into the welcome message:\n{uid} - the user's ID\n{fanme} - the user's first name\n{lname} - the user's last name\n{username} - the user's username \n\nCustom Welcomes: \nI can also do custom welcome messages please PM @benthecat to get one")
+            bot.sendMessage(update.message.from_user.id, )
         except Unauthorized:
             update.message.reply_text("Please PM me first ~")
 
         update.message.reply_text("I have sent you a PM")
+
+def hug(bot, update, args):
+    if args[0] is not None:
+        hugs = []
+        hugNumber = int(args[0])
+        if hugNumber == int(69):
+            for x in range(hugNumber):
+                    hugs.append("😏")
+            update.message.reply_text(" ".join(hugs), quote=False)
+        elif hugNumber < 99:
+            for x in range(hugNumber):
+                    hugs.append("*hug*")
+            update.message.reply_text(" ".join(hugs), quote=False)
+        else:
+            update.message.reply_text("Too many, hug rejected")
+    else:
+        update.message.reply_text("Insert how many hugs you want by typing : /hug <number>")
+
+def stab(bot, update):
+    update.message.reply_text("*cautiously hands knife to {0} 🙈🙈🙈*".format(update.message.from_user.first_name))
+
+
 
 
 def echo(bot, update):
@@ -61,7 +91,10 @@ def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))
 
 def test(bot, update, args):
+    u = bredis.User(update.message.from_user.id)
+    print(u.fname)
     update.message.reply_text('Test failed. Try again mf')
+
 
 def add(bot, update):
     fr = update.message.from_user
@@ -72,6 +105,30 @@ def add(bot, update):
     else:
         return None
 
+def inlinequery(bot, update):
+    query = update.inline_query.query
+    results = list()
+
+    results.append(InlineQueryResultArticle(id=uuid4(),
+                                            title="Caps",
+                                            input_message_content=InputTextMessageContent(
+                                                query.upper())))
+
+    results.append(InlineQueryResultArticle(id=uuid4(),
+                                            title="Bold",
+                                            input_message_content=InputTextMessageContent(
+                                                "*%s*" % escape_markdown(query),
+                                                parse_mode=ParseMode.MARKDOWN)))
+
+    results.append(InlineQueryResultArticle(id=uuid4(),
+                                            title="Italic",
+                                            input_message_content=InputTextMessageContent(
+                                                "_%s_" % escape_markdown(query),
+                                                parse_mode=ParseMode.MARKDOWN)))
+
+    update.inline_query.answer(results)
+
+
 def main():
     # Create the EventHandler and pass it your bot's token.
     updater = Updater(TOKEN)
@@ -80,6 +137,8 @@ def main():
     dp = updater.dispatcher
 
     
+    # on noncommand i.e message - echo the message on Telegram
+    #dp.add_handler(InlineQueryHandler(inlinequery))
     #Commands
     
     #all users
@@ -87,6 +146,9 @@ def main():
     dp.add_handler(CommandHandler("test", test, pass_args=True))
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", helpm))
+    dp.add_handler(CommandHandler("hug", hug, pass_args=True))
+    dp.add_handler(CommandHandler("stab", stab))
+    dp.add_handler(CommandHandler("stab", stab))
 
 
     #superadmin only
