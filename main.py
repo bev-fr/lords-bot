@@ -61,26 +61,33 @@ def helpm(bot, update):
         update.message.reply_text("I have sent you a PM")
 
 def hug(bot, update, args):
-    if args[0] is not None:
-        hugs = []
+    msg = []
+    try:
         hugNumber = int(args[0])
         if hugNumber == int(69):
             for x in range(hugNumber):
-                    hugs.append("😏")
-            update.message.reply_text(" ".join(hugs), quote=False)
+                    msg.append("😏")
         elif hugNumber < 99:
             for x in range(hugNumber):
-                    hugs.append("*hug*")
-            update.message.reply_text(" ".join(hugs), quote=False)
+                    msg.append("*hug*")
         else:
-            update.message.reply_text("Too many, hug rejected")
+            msg.append("Too many, hugs rejected")
+    except ValueError:
+        msg.append("Insert how many hugs you want by typing : /hug <number>")
+    replyMessage = update.message.reply_to_message
+    if replyMessage is not None:
+        message = update.message 
+        bot.sendMessage(message.chat.id, " ".join(msg), reply_to_message_id = replyMessage.message_id)
     else:
-        update.message.reply_text("Insert how many hugs you want by typing : /hug <number>")
+        update.message.reply_text(" ".join(msg), quote=False)
+
 
 def stab(bot, update):
-    update.message.reply_text("*cautiously hands knife to {0} 🙈🙈🙈*".format(update.message.from_user.first_name))
-
-
+    if update.message.reply_to_message.from_user.id == 81772130:
+        msg = "nooooooooo not my lordy! *takes knife and stab stab stabs {0}*"
+    else:
+        msg = "*cautiously hands knife to {0} 🙈🙈🙈*"
+    update.message.reply_text(msg.format(update.message.from_user.first_name))
 
 
 def echo(bot, update):
@@ -89,6 +96,7 @@ def echo(bot, update):
 
 def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))
+
 
 def test(bot, update, args):
     u = bredis.User(update.message.from_user.id)
