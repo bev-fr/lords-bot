@@ -83,11 +83,15 @@ def hug(bot, update, args):
 
 
 def stab(bot, update):
-    if update.message.reply_to_message.from_user.id == 81772130:
-        msg = "nooooooooo not my lordy! *takes knife and stab stab stabs {0}*"
+    creator = 81772130
+    if update.message.from_user.id == creator:
+        msg = "...okay.... *stab stab stabs {1}*"
     else:
-        msg = "*cautiously hands knife to {0} 🙈🙈🙈*"
-    update.message.reply_text(msg.format(update.message.from_user.first_name))
+        if update.message.reply_to_message.from_user.id == creator:
+            msg = "nooooooooo not my lordy! *takes knife and stab stab stabs {0}*"
+        else:
+            msg = "*cautiously hands knife to {0} 🙈🙈🙈*"
+    update.message.reply_text(msg.format(update.message.from_user.first_name, update.message.reply_to_message.from_user.first_name))
 
 
 def echo(bot, update):
