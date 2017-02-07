@@ -88,7 +88,10 @@ def stab(bot, update):
         msg = "...okay.... *stab stab stabs {1}*"
     else:
         if update.message.reply_to_message.from_user.id == creator:
-            msg = "nooooooooo not my lordy! *takes knife and stab stab stabs {0}*"
+            if update.message.from_user.id == 252424970:
+                msg = "nooooooooo not my lordy! *takes knife and stab stab stabs Sheryl the lid*"
+            else:
+                msg = "nooooooooo not my lordy! *takes knife and stab stab stabs {0}*"
         else:
             msg = "*cautiously hands knife to {0} 🙈🙈🙈*"
     update.message.reply_text(msg.format(update.message.from_user.first_name, update.message.reply_to_message.from_user.first_name))
