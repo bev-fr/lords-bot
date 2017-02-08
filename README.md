@@ -1,0 +1,2 @@
+# lords-bot
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6a0e16613bd84706826d1ed95dac9e05)](https://www.codacy.com/app/Dabadooba/lords-bot?utm_source=github.com&utm_medium=referral&utm_content=Dabadooba/lords-bot&utm_campaign=badger)
