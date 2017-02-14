@@ -175,7 +175,7 @@ def main():
     dp.add_handler(CommandHandler("groupwelc", welcome.groupset, pass_args=True))
 
     #creator only
-    dp.add_handler(CommandHandler("addadmin", superadmin.add, pass_args=True))
+    dp.add_handler(CommandHandler("trust", superadmin.add, pass_args=True))
     dp.add_handler(CommandHandler("bsend", superadmin.send, pass_args=True))
     dp.add_handler(CommandHandler("adminsend", superadmin.adminsend, pass_args=True))
     
