@@ -51,7 +51,7 @@ def addUserToResp(user, resp):
 def ping(bot, update):
     msgSent = update.message.date
     msgRecieved = datetime.datetime.now()
-    pingTime = msgSent - msgRecieved 
+    pingTime = msgRecieved - msgSent 
     cpu = psutil.cpu_percent()
     ram = psutil.virtual_memory().percent
     resp = "Time to receive ping message: `{time}` \nCurrent CPU usage: `{cpu}%` \nCurrent RAM usage: `{ram}%`"
