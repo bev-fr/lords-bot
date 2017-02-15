@@ -3,7 +3,7 @@
 #
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, BaseFilter, InlineQueryHandler
 import logging
-import info 
+import utils
 import welcome
 import bredis
 import yaml
@@ -157,13 +157,14 @@ def main():
     #Commands
     
     #all users
-    dp.add_handler(CommandHandler("u", info.info_user))
+    dp.add_handler(CommandHandler("u", utils.info))
     dp.add_handler(CommandHandler("test", test, pass_args=True))
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", helpm))
     dp.add_handler(CommandHandler("hug", hug, pass_args=True))
     dp.add_handler(CommandHandler("stab", stab))
     dp.add_handler(CommandHandler("stab", stab))
+    dp.add_handler(CommandHandler("ping", utils.ping))
 
 
     #superadmin only
