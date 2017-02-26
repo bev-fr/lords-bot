@@ -159,7 +159,7 @@ def main():
     #all users
     dp.add_handler(CommandHandler("u", utils.info))
     dp.add_handler(CommandHandler("test", test, pass_args=True))
-    dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(CommandHandler("start@benthebot", start))
     dp.add_handler(CommandHandler("help", helpm))
     dp.add_handler(CommandHandler("hug", hug, pass_args=True))
     dp.add_handler(CommandHandler("stab", stab))
