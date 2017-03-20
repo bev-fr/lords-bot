@@ -5,16 +5,6 @@ import datetime
 import psutil
 
 
-def info_meta(bot, update, args):
-    commands = {
-    	'user': info_user,
-    	'chat': info_chat,
-    	'message': info_message,
-    	'full' : info_full
-    }
-    if args[0] in commands:
-    	commands[args[0]](bot, update)
-
 
 def escape_markdown(text):
     """Helper function to escape telegram markup symbols"""
@@ -42,8 +32,8 @@ def info(bot, update):
 def addUserToResp(user, resp):
     if user.username:
         resp.append(escape_markdown('@{}'.format(user.username)))
-        resp.append('`{}`'.format(user.id))
-        resp.append(escape_markdown('First: {}'.format(user.first_name)))
+    resp.append('`{}`'.format(user.id))
+    resp.append(escape_markdown('First: {}'.format(user.first_name)))
     if user.last_name:
     	resp.append(escape_markdown('Last: {}'.format(user.last_name)))
     return resp
