@@ -22,8 +22,11 @@ def set_welc_other(bot, update, args):
         update.message.reply_text('who are you? my lordy told me never to talk to strangers... *runs away*', quote=False)
 
 def set_welc(bot, update, uid, message):
-    bredis.setwelc(' '.join(message), uid)
-    bot.forwardMessage("@benthelog", update.message.chat.id, update.message.message_id)
+    user = update.message.from_user
+    welc_msg = ' '.join(message)
+    bredis.setwelc(welc_msg, uid)
+    resp = "{fname} {lname} (`{uid}`) (@{username}) has set their welcome message to:\n {welc}"
+    bot.sendMessage("@benthelog", resp.format(fname=user.first_name, lname=user.last_name, uid=uid, username=user.username, welc=welc_msg), parse_mode='Markdown')
 
 def rem(bot, update, args):
     adminid = update.message.from_user.id 
