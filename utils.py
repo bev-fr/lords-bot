@@ -38,12 +38,12 @@ def addUserToResp(user, resp):
     	resp.append(escape_markdown('Last: {}'.format(user.last_name)))
     return resp
 
-def ping(bot, update):
+def sys_info(bot, update):
     msgSent = update.message.date
     msgRecieved = datetime.datetime.now()
     pingTime = msgRecieved - msgSent 
     cpu = psutil.cpu_percent()
     ram = psutil.virtual_memory().percent
-    resp = "Time to receive ping message: `{time}` \nCurrent CPU usage: `{cpu}%` \nCurrent RAM usage: `{ram}%`"
+    resp = "Time to receive message: `{time}` \nCurrent CPU usage: `{cpu}%` \nCurrent RAM usage: `{ram}%`"
     resp = resp.format(time=pingTime, cpu=cpu, ram=ram)
     update.message.reply_text(resp, quote=False, parse_mode='Markdown')
