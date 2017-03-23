@@ -164,11 +164,12 @@ def main():
     dp.add_handler(CommandHandler("hug", hug, pass_args=True))
     dp.add_handler(CommandHandler("stab", stab))
     dp.add_handler(CommandHandler("stab", stab))
-    dp.add_handler(CommandHandler("ping", utils.ping))
+    dp.add_handler(CommandHandler("sys", utils.sys_info))
+    dp.add_handler(CommandHandler("mywelc", welcome.set_welc_self, pass_args=True))
 
 
     #superadmin only
-    dp.add_handler(CommandHandler("setwelc", welcome.set, pass_args=True))
+    dp.add_handler(CommandHandler("setwelc", welcome.set_welc_other, pass_args=True))
     dp.add_handler(CommandHandler("getwelc", welcome.get, pass_args=True))
     dp.add_handler(CommandHandler("delwelc", welcome.rem, pass_args=True))
 

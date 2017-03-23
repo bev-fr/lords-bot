@@ -1,21 +1,29 @@
 import bredis
 from mwt import MWT
 
+def set_welc_self(bot, update, args):
+    uid = update.message.from_user.id
+    welc_msg = args
+    set_welc(bot, update, uid, welc_msg)
+    resp = "Your welcome message was set to:\n{}" 
+    update.message.reply_text(resp.format(bredis.getwelc(uid)), quote=False, parse_mode='Markdown')
 
-def set(bot, update, args):
-    uid = update.message.from_user.id 
-    isAdmin = bredis.superadmin.check(uid)
+def set_welc_other(bot, update, args):
+    adminid = update.message.from_user.id 
+    isAdmin = bredis.superadmin.check(adminid)
     if isAdmin is True:
         uid = args[0]
         del args[0]
-        print(args)
-        print(uid)
-        bredis.setwelc(' '.join(args), uid)
+        welc_msg = args
+        set_welc(bot, update, uid, welc_msg)
         msg = "`{0}`'s welcome message set to:\n{1}" 
         update.message.reply_text(msg.format(uid, bredis.getwelc(uid)), quote=False, parse_mode='Markdown')
-        bot.forwardMessage("@benthelog", update.message.chat.id, update.message.message_id)
     else:
         update.message.reply_text('who are you? my lordy told me never to talk to strangers... *runs away*', quote=False)
+
+def set_welc(bot, update, uid, message):
+    bredis.setwelc(' '.join(message), uid)
+    bot.forwardMessage("@benthelog", update.message.chat.id, update.message.message_id)
 
 def rem(bot, update, args):
     adminid = update.message.from_user.id 
