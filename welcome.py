@@ -25,8 +25,11 @@ def set_welc(bot, update, uid, message):
     user = update.message.from_user
     welc_msg = ' '.join(message)
     bredis.setwelc(welc_msg, uid)
-    resp = "{fname} {lname} (`{uid}`) (@{username}) has set their welcome message to:\n {welc}"
-    bot.sendMessage("@benthelog", resp.format(fname=user.first_name, lname=user.last_name, uid=uid, username=user.username, welc=welc_msg), parse_mode='Markdown')
+    if user.id == uid:
+        log_msg = "{fname} {lname} (`{uid}`) (@{username}) has set their welcome message to:\n {welc}"
+    else: 
+        log_msg = "{fname} {lname} (`{setter_id}`) (@{username}) has set `{uid}`'s welcome message to:\n {welc}"
+    bot.sendMessage("@benthelog", log_msg.format(fname=user.first_name, lname=user.last_name, setter_id=user.id, uid=uid, username=user.username, welc=welc_msg), parse_mode='Markdown')
 
 def rem(bot, update, args):
     adminid = update.message.from_user.id 
