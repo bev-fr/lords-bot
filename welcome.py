@@ -3,10 +3,14 @@ from mwt import MWT
 
 def set_welc_self(bot, update, args):
     uid = update.message.from_user.id
-    welc_msg = args
-    set_welc(bot, update, uid, welc_msg)
-    resp = "Your welcome message was set to:\n{}" 
-    update.message.reply_text(resp.format(bredis.getwelc(uid)), quote=False, parse_mode='Markdown')
+    isBlocked = bredis.blocked.check(uid) 
+    if isBlocked is True:
+        return None
+    else:
+        welc_msg = args
+        set_welc(bot, update, uid, welc_msg)
+        resp = "Your welcome message was set to:\n{}" 
+        update.message.reply_text(resp.format(bredis.getwelc(uid)), quote=False, parse_mode='Markdown')
 
 def set_welc_other(bot, update, args):
     adminid = update.message.from_user.id 
@@ -30,6 +34,8 @@ def set_welc(bot, update, uid, message):
     else: 
         log_msg = "{fname} {lname} (`{setter_id}`) (@{username}) has set `{uid}`'s welcome message to:\n {welc}"
     bot.sendMessage("@benthelog", log_msg.format(fname=user.first_name, lname=user.last_name, setter_id=user.id, uid=uid, username=user.username, welc=welc_msg), parse_mode='Markdown')
+
+
 
 def rem(bot, update, args):
     adminid = update.message.from_user.id 

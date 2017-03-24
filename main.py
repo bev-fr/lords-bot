@@ -10,15 +10,7 @@ import yaml
 import superadmin
 
 #Config
-
-#Bot Configuration
-with open("config.yml", 'r') as configfile:
-    cfg = yaml.load(configfile)
-
-for section in cfg:
-    TOKEN = str(cfg['apitoken'])
-    log = str(cfg['log'])
-    creator = int(cfg['creator-id'])
+from config import token, log
 
 
 # Enable logging
@@ -146,7 +138,7 @@ def inlinequery(bot, update):
 
 def main():
     # Create the EventHandler and pass it your bot's token.
-    updater = Updater(TOKEN)
+    updater = Updater(token)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
@@ -172,6 +164,10 @@ def main():
     dp.add_handler(CommandHandler("setwelc", welcome.set_welc_other, pass_args=True))
     dp.add_handler(CommandHandler("getwelc", welcome.get, pass_args=True))
     dp.add_handler(CommandHandler("delwelc", welcome.rem, pass_args=True))
+    dp.add_handler(CommandHandler("block", superadmin.block_user, pass_args=True))
+    dp.add_handler(CommandHandler("unblock", superadmin.unblock_user, pass_args=True))
+    dp.add_handler(CommandHandler("blocked", superadmin.list_blocked_users))
+
 
     #groupadmin only
     dp.add_handler(CommandHandler("groupwelc", welcome.groupset, pass_args=True))
