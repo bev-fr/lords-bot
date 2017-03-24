@@ -9,7 +9,10 @@ r = redis.Redis(
 
 #r.hmset('Player:0', {'username': 'test', 'fname': 'test', 'lname': 'test', 'welcome': 'welcome test'})
 
-class user:
+class User:
+    def __init__(self, uid):
+        self.fname = r.hget(str('Player:{0}'.format(uid)), "fname")
+
     def all(uid):
         if int(uid) >= 0:
             return r.hgetall(str('Player:{0}'.format(uid)))
@@ -80,3 +83,17 @@ class superadmin:
             return False
     def get():
         return r.smembers('superadmins')
+
+class blocked:
+    def add(uid):
+        r.sadd('blocked', uid)
+
+    def check(uid):
+        if r.sismember("blocked", uid) == 1:
+            return True
+        else: 
+            return False
+    def get():
+        return r.smembers('blocked')
+    def rem(uid):
+        r.srem('blocked', uid)
