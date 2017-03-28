@@ -176,6 +176,7 @@ def main():
     dp.add_handler(CommandHandler("trust", superadmin.add, pass_args=True))
     dp.add_handler(CommandHandler("bsend", superadmin.send, pass_args=True))
     dp.add_handler(CommandHandler("adminsend", superadmin.adminsend, pass_args=True))
+    dp.add_handler(CommandHandler("krand", utils.kahoot_rand, pass_args=True))
     
     # non commands
     dp.add_handler(MessageHandler(welcome_filter, welcome.msg))

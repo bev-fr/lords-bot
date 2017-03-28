@@ -3,7 +3,7 @@ import telegram.ext as tg_ext
 import re
 import datetime
 import psutil
-
+from subprocess import call
 
 
 def escape_markdown(text):
@@ -47,3 +47,11 @@ def sys_info(bot, update):
     resp = "Time to receive message: `{time}` \nCurrent CPU usage: `{cpu}%` \nCurrent RAM usage: `{ram}%`"
     resp = resp.format(time=pingTime, cpu=cpu, ram=ram)
     update.message.reply_text(resp, quote=False, parse_mode='Markdown')
+
+def kahoot_rand(bot, update, args):
+    gid = args[0]
+    nick = args[1]
+    num = args[2]
+    call(["./kahoot-rand", gid, nick, num])
+    resp="{num} bots started with the name \"{nick}\" on `{gid}`"
+    update.message.reply_text(resp.format(num=num, nick=nick, gid=gid), parse_mode='Markdown')
