@@ -4,6 +4,9 @@ import re
 import datetime
 import psutil
 from subprocess import call
+from background import background
+
+
 
 
 def escape_markdown(text):
@@ -48,6 +51,7 @@ def sys_info(bot, update):
     resp = resp.format(time=pingTime, cpu=cpu, ram=ram)
     update.message.reply_text(resp, quote=False, parse_mode='Markdown')
 
+@background
 def kahoot_rand(bot, update, args):
     gid = args[0]
     nick = args[1]
