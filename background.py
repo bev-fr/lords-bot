@@ -1,8 +1,8 @@
-from multiprocessing import Process
+from threading import Thread
 
 def background(func):
 	def threader(*args, **kwargs):
-		p = Process(
+		p = Thread(
 			target = func,
 			args = [*args],
 			kwargs = {**kwargs},
