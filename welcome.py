@@ -85,12 +85,12 @@ def msg(bot, update):
     exists = bredis.exists(user.id)
     if rawwelc != None and exists == 1: 
         welc = "{0} `({1})`".format(rawwelc, uid)
-        update.message.reply_text(welc, quote=False, parse_mode='Markdown')
+        update.message.reply_text(welc, quote=False, parse_mode='Markdown', disable_web_page_preview=True)
     else: 
         groupwelc = bredis.getwelc(update.message.chat.id).format(fname=user.first_name, lname=user.last_name, uid=user.id, username=user.username)
         if groupwelc != None:
             try:
-                update.message.reply_text(groupwelc, quote=False, parse_mode='Markdown')
+                update.message.reply_text(groupwelc, quote=False, parse_mode='Markdown', disable_web_page_preview=True)
             except:
                 update.message.reply_text(groupwelc, quote=False)#, parse_mode='HTML')
         else:
