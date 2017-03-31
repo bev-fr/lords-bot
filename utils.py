@@ -16,19 +16,22 @@ def escape_markdown(text):
 
 
 def info(bot, update):
-    user = update.message.reply_to_message.from_user
-    timestamp = update.message.reply_to_message.date
-    resp = []
-    resp = addUserToResp(user, resp)
-    resp.append('At {} UTC'.format(str(timestamp)))
-    if update.message.reply_to_message.forward_from:
-        resp.append('\nForwarded From:')
-        addUserToResp(update.message.reply_to_message.forward_from, resp)
-        forwardTimestamp = update.message.reply_to_message.forward_date
-        resp.append('Originally sent at {} UTC'.format(forwardTimestamp))
-    #if update.message.reply_to_message.forward_from_chat:
-        #chan = update.message.reply_to_message.forward_from_chat
-    resp = '\n'.join(resp)
+    if update.message.reply_to_message:
+        user = update.message.reply_to_message.from_user
+        timestamp = update.message.reply_to_message.date
+        resp = []
+        resp = addUserToResp(user, resp)
+        resp.append('At {} UTC'.format(str(timestamp)))
+        if update.message.reply_to_message.forward_from:
+            resp.append('\nForwarded From:')
+            addUserToResp(update.message.reply_to_message.forward_from, resp)
+            forwardTimestamp = update.message.reply_to_message.forward_date
+            resp.append('Originally sent at {} UTC'.format(forwardTimestamp))
+        #if update.message.reply_to_message.forward_from_chat:
+            #chan = update.message.reply_to_message.forward_from_chat
+        resp = '\n'.join(resp)
+    else:
+        resp = "Please reply to the user you want info about"
     bot.send_message(update.message.chat_id, resp, parse_mode='Markdown')
 
 
