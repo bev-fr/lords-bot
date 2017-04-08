@@ -25,10 +25,47 @@ class User:
         else:
             return r.hget(str('Group:{0}'.format(uid)), "title")
     
-#    class welcome:
-#        def set
-#        r.hmset(str('Player:{0}'.format(uid)), {'welcome': msg})
-#
+class welcome:
+    class type:
+        def set(msg_type, uid):
+            if int(uid) >= 0:
+                r.hmset(str('Player:{0}'.format(uid)), {'welcome_type': msg_type})
+            else:
+                r.hmset(str('Group:{0}'.format(uid)), {'welcome_type': msg_type})
+        
+        def get(uid):
+            if int(uid) >= 0:
+                return r.hget('Player:{0}'.format(uid), 'welcome_type')
+            else:
+                return r.hget('Group:{0}'.format(uid), 'welcome_type')
+
+
+    def set(msg, uid):
+        if int(uid) >= 0:
+            r.hmset(str('Player:{0}'.format(uid)), {'welcome': msg})
+        else:
+            r.hmset(str('Group:{0}'.format(uid)), {'welcome': msg})
+
+    def delete(uid):
+        if int(uid) >= 0:
+            r.hdel(str('Player:{0}'.format(uid)), 'welcome')
+        else:
+            r.hdel(str('Group:{0}'.format(uid)), 'welcome')
+
+    class file_id:
+        def set(file_id, uid):
+            if int(uid) >= 0:
+                r.hmset(str('Player:{0}'.format(uid)), {'file_id': file_id})
+            else:
+                r.hmset(str('Group:{0}'.format(uid)), {'file_id': file_id})
+
+        def get(uid):
+            if int(uid) >= 0:
+                return r.hget('Player:{0}'.format(uid), 'file_id')
+            else:
+                return r.hget('Group:{0}'.format(uid), 'file_id')
+
+
 #class group:
 #    def setwelc(msg, uid):
 #            r.hmset(str('Group:{0}'.format(uid)), {'welcome': msg})
@@ -45,17 +82,7 @@ class User:
 #        else:
 #            return r.hget('Group:{0}'.format(uid), 'welcome')
 
-def setwelc(msg, uid):
-    if int(uid) >= 0:
-        r.hmset(str('Player:{0}'.format(uid)), {'welcome': msg})
-    else:
-        r.hmset(str('Group:{0}'.format(uid)), {'welcome': msg})
 
-def remwelc(uid):
-    if int(uid) >= 0:
-        r.hdel(str('Player:{0}'.format(uid)), 'welcome')
-    else:
-        r.hdel(str('Group:{0}'.format(uid)), 'welcome')
 
 def getwelc(uid):
     if int(uid) >= 0:

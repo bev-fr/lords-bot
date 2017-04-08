@@ -9,3 +9,4 @@ for section in cfg:
     token = str(cfg['apitoken'])
     log = str(cfg['log'])
     creator = int(cfg['creator-id'])
+    log_channel = int(cfg['log_channel'])
