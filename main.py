@@ -100,7 +100,12 @@ def error(bot, update, error):
 def test(bot, update, args):
     u = bredis.User(update.message.from_user.id)
     print(u.fname)
-    update.message.reply_text('Test failed. Try again mf')
+    file_id = 'CgADBAADfg4AAhMcZAcMGjIBsWL2AgI'
+    update.message.reply_text(str(update.message))
+    update.message.reply_document(document=file_id,
+            quote=False,
+            parse_mode='Markdown',
+            disable_web_page_preview=True)
 
 
 def add(bot, update):
@@ -157,6 +162,7 @@ def main():
     dp.add_handler(CommandHandler("stab", stab))
     dp.add_handler(CommandHandler("stab", stab))
     dp.add_handler(CommandHandler("sys", utils.sys_info))
+    dp.add_handler(CommandHandler("redis", utils.redis_info, pass_args=True))
     dp.add_handler(CommandHandler("mywelc", welcome.set_welc_self, pass_args=True))
 
 

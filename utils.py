@@ -5,6 +5,7 @@ import datetime
 import psutil
 from subprocess import call
 from background import background
+import bredis 
 
 
 
@@ -53,6 +54,10 @@ def sys_info(bot, update):
     resp = "Time to receive message: `{time}` \nCurrent CPU usage: `{cpu}%` \nCurrent RAM usage: `{ram}%`"
     resp = resp.format(time=pingTime, cpu=cpu, ram=ram)
     update.message.reply_text(resp, quote=False, parse_mode='Markdown')
+
+def redis_info(bot, update, args):
+    resp = bredis.info('server')
+    update.message.reply_text(resp["redis_version"])
 
 @background
 def kahoot_rand(bot, update, args):

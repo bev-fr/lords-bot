@@ -8,6 +8,8 @@ r = redis.Redis(
         
 
 #r.hmset('Player:0', {'username': 'test', 'fname': 'test', 'lname': 'test', 'welcome': 'welcome test'})
+def info(section):
+    return r.info(section)
 
 class User:
     def __init__(self, uid):
