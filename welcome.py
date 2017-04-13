@@ -7,7 +7,7 @@ def set_welc_self(bot, update, args):
     isBlocked = bredis.blocked.check(uid) 
     if isBlocked is True:
         return None
-    elif args == [] and update.message.reply_to_message.document is None:
+    elif args == []:
         welc = bredis.getwelc(uid)
         if welc != None:
             resp = "Your current welcome message is:\n{}"
