@@ -11,21 +11,21 @@ r = redis.Redis(
 def info(section):
     return r.info(section)
 
-class User:
-    def __init__(self, uid):
-        self.fname = r.hget(str('Player:{0}'.format(uid)), "fname")
-
-    def all(uid):
-        if int(uid) >= 0:
-            return r.hgetall(str('Player:{0}'.format(uid)))
-        else:
-            return r.hgetall(str('Group:{0}'.format(uid)))
-        
-    def name(uid):
-        if int(uid) >= 0:
-            return r.hget(str('Player:{0}'.format(uid)), "fname")
-        else:
-            return r.hget(str('Group:{0}'.format(uid)), "title")
+#class User:
+#    def __init__(self, uid):
+#        self.fname = r.hget(str('Player:{0}'.format(uid)), "fname")
+#
+#    def all(uid):
+#        if int(uid) >= 0:
+#            return r.hgetall(str('Player:{0}'.format(uid)))
+#        else:
+#            return r.hgetall(str('Group:{0}'.format(uid)))
+#        
+#    def name(uid):
+#        if int(uid) >= 0:
+#            return r.hget(str('Player:{0}'.format(uid)), "fname")
+#        else:
+#            return r.hget(str('Group:{0}'.format(uid)), "title")
     
 class welcome:
     class type:
