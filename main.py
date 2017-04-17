@@ -8,9 +8,10 @@ import welcome
 import bredis
 import yaml
 import superadmin
+import wiktionary
 
 #Config
-from config import token, log
+from config import token, log, creator
 
 
 # Enable logging
@@ -75,9 +76,8 @@ def hug(bot, update, args):
 
 
 def stab(bot, update):
-    creator = 81772130
-    if update.message.from_user.id == creator:
-        msg = "...okay.... *stab stab stabs {1}*"
+    if update.message.from_user.id in creator:
+        msg = "*stab stab stabs {1}*"
     else:
         if update.message.reply_to_message.from_user.id == creator:
             if update.message.from_user.id == 252424970:
@@ -98,8 +98,7 @@ def error(bot, update, error):
 
 
 def test(bot, update, args):
-    u = bredis.User(update.message.from_user.id)
-    print(u.fname)
+    print(creator)
     file_id = 'CgADBAADfg4AAhMcZAcMGjIBsWL2AgI'
     update.message.reply_text(str(update.message))
     update.message.reply_document(document=file_id,
@@ -117,29 +116,6 @@ def add(bot, update):
     else:
         return None
 
-def inlinequery(bot, update):
-    query = update.inline_query.query
-    results = list()
-
-    results.append(InlineQueryResultArticle(id=uuid4(),
-                                            title="Caps",
-                                            input_message_content=InputTextMessageContent(
-                                                query.upper())))
-
-    results.append(InlineQueryResultArticle(id=uuid4(),
-                                            title="Bold",
-                                            input_message_content=InputTextMessageContent(
-                                                "*%s*" % escape_markdown(query),
-                                                parse_mode=ParseMode.MARKDOWN)))
-
-    results.append(InlineQueryResultArticle(id=uuid4(),
-                                            title="Italic",
-                                            input_message_content=InputTextMessageContent(
-                                                "_%s_" % escape_markdown(query),
-                                                parse_mode=ParseMode.MARKDOWN)))
-
-    update.inline_query.answer(results)
-
 
 def main():
     # Create the EventHandler and pass it your bot's token.
@@ -148,11 +124,8 @@ def main():
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
 
-    
-    # on noncommand i.e message - echo the message on Telegram
-    #dp.add_handler(InlineQueryHandler(inlinequery))
-    #Commands
-    
+
+    ###Commands
     #all users
     dp.add_handler(CommandHandler("u", utils.info))
     dp.add_handler(CommandHandler("test", test, pass_args=True))

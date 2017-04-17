@@ -8,5 +8,5 @@ cfg = yaml.safe_load(configFile)
 for section in cfg:
     token = str(cfg['apitoken'])
     log = str(cfg['log'])
-    creator = int(cfg['creator-id'])
+    creator = cfg['creators']
     log_channel = cfg['log_channel']
