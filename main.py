@@ -8,7 +8,6 @@ import welcome
 import bredis
 import yaml
 import superadmin
-import wiktionary
 
 #Config
 from config import token, log, creator
