@@ -36,6 +36,7 @@ def set_welc_other(bot, update, args):
 def set_welc(bot, update, uid, message):
     user = update.message.from_user
     welc_msg = ' '.join(message)
+    chatid = update.message.chat.id
     bredis.welcome.set(welc_msg, uid)
     if update.message.reply_to_message:
         if update.message.reply_to_message.document:
@@ -43,31 +44,41 @@ def set_welc(bot, update, uid, message):
             bredis.welcome.file_id.set(file_id, uid)
             bredis.welcome.type.set('gif', uid)
             if user.id == uid:
-                log_msg = "{fname} {lname} ({uid}) (@{username}) has set their welcome message to:\n {welc}"
+                log_msg = "{fname} {lname} ({uid}) (@{username}) has set their welcome message to:\n {welc} \nIn {chatid}"
             else: 
-                log_msg = "{fname} {lname} ({setter_id}) (@{username}) has set {uid}'s welcome message to:\n {welc}"
-            bot.sendDocument(log_channel,
+                log_msg = "{fname} {lname} ({setter_id}) (@{username}) has set {uid}'s welcome message to:\n {welc} \nIn {chatid}"
+            bot.sendDocument(
+                    log_channel,
                     file_id,
-                    caption=log_msg.format(fname=user.first_name,
+                    caption=log_msg.format(
+                        fname=user.first_name,
                         lname=user.last_name,
                         setter_id=user.id,
                         uid=uid,
                         username=user.username,
-                        welc=welc_msg))
+                        welc=welc_msg,
+                        chatid=chatidi
+                        )
+                    )
     else:
         bredis.welcome.type.set('text', uid)
         if user.id == uid:
-            log_msg = "{fname} {lname} (`{uid}`) (@{username}) has set their welcome message to:\n {welc}"
+            log_msg = "{fname} {lname} (`{uid}`) (@{username}) has set their welcome message to:\n {welc} \nIn {chatid}"
         else: 
-            log_msg = "{fname} {lname} (`{setter_id}`) (@{username}) has set `{uid}`'s welcome message to:\n {welc}"
-        bot.sendMessage(log_channel,
-                log_msg.format(fname=user.first_name,
+            log_msg = "{fname} {lname} (`{setter_id}`) (@{username}) has set `{uid}`'s welcome message to:\n {welc} \nIn {chatid}"
+        bot.sendMessage(
+                log_channel,
+                log_msg.format(
+                    fname=user.first_name,
                     lname=user.last_name,
                     setter_id=user.id,
                     uid=uid,
                     username=user.username,
-                    welc=welc_msg),
-                parse_mode='Markdown')
+                    welc=welc_msg,
+                    chatid=chatid
+                    ),
+                parse_mode='Markdown'
+                )
 
 
 def groupset(bot, update, args):
