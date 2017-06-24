@@ -69,6 +69,5 @@ def unblock_user(bot, update, args):
 def send(bot, update, args):
     gid = args[0]
     del args[0]
-    msg = utils.escape_markdown(' '.join(args))
-    bot.sendMessage(gid, msg)# parse_mode='Markdown')
+    bot.sendMessage(gid, msg, parse_mode='Markdown')
 
