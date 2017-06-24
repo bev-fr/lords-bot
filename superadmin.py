@@ -13,13 +13,6 @@ def creator_only(func):
 
 ###Creator Only
 @creator_only
-def send(bot, update, args):
-    gid = args[0]
-    del args[0]
-    msg = utils.escape_markdown(' '.join(args))
-    bot.sendMessage(gid, msg)# parse_mode='Markdown')
-
-@creator_only
 def add(bot, update, args):
     bredis.superadmin.add(args)
     chat_id = update.message.chat.id
@@ -71,3 +64,11 @@ def unblock_user(bot, update, args):
     blockedId = args[0]
     bredis.blocked.rem(str(blockedId))
     update.message.reply_text('`{}` has been unblocked'.format(blockedId), quote=False, parse_mode='Markdown')
+
+@sAdmin_only
+def send(bot, update, args):
+    gid = args[0]
+    del args[0]
+    msg = utils.escape_markdown(' '.join(args))
+    bot.sendMessage(gid, msg)# parse_mode='Markdown')
+
