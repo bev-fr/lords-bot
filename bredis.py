@@ -126,3 +126,9 @@ class blocked:
         return r.smembers('blocked')
     def rem(uid):
         r.srem('blocked', uid)
+
+class groupList:
+    def add(groupId):
+        r.sadd('Groups', groupId)
+    def get():
+        return r.smembers('Groups')

@@ -31,12 +31,6 @@ class WelcomeFilter(BaseFilter):
 welcome_filter = WelcomeFilter()
 
 
-def escape_markdown(text):
-    """Helper function to escape telegram markup symbols"""
-    escape_chars = '\*_`\['
-    return re.sub(r'([%s])' % escape_chars, r'\\\1', text)
-
-
 def start(bot, update):
     update.message.reply_text('Hello, I am lil cat lord, a bot that wecomes users to groups. Use /help to learn about all my commands')
 
@@ -106,14 +100,26 @@ def test(bot, update, args):
             disable_web_page_preview=True)
 
 
-def add(bot, update):
-    fr = update.message.from_user
-    bredis.adduser(fr.id, fr.first_name, fr.last_name, fr.username)
-    c = update.message.chat
-    if update.message.chat.type != 'private':
-        bredis.addgroup(c.id, c.title, c.username)
-    else:
-        return None
+def logGroupIds(bot ,update):
+    if update.message.chat.id < 0:
+        bredis.groupList.add(update.message.chat.id)
+
+def grouplist(bot, update):
+    raw_groups = bredis.groupList.get()
+    groups = []
+    for i in raw_groups:
+        groups.append(str(i))
+    resp = "{num} groups have been logged.\n {groups}"
+    print(groups)
+    print(raw_groups)
+    update.message.reply_text(
+            resp.format(
+                num=len(groups),
+                groups='\n'.join(groups)
+                ),
+            quote=False,
+            parse_mode='Markdown')
+
 
 
 def main():
@@ -136,6 +142,7 @@ def main():
     dp.add_handler(CommandHandler("sys", utils.sys_info))
     dp.add_handler(CommandHandler("redis", utils.redis_info, pass_args=True))
     dp.add_handler(CommandHandler("mywelc", welcome.set_welc_self, pass_args=True))
+    dp.add_handler(CommandHandler("groups", grouplist))
 
 
     #superadmin only
@@ -158,7 +165,7 @@ def main():
     
     # non commands
     dp.add_handler(MessageHandler(welcome_filter, welcome.msg))
-    dp.add_handler(MessageHandler(Filters.text, add))
+    dp.add_handler(MessageHandler(Filters.text, logGroupIds))
 
     # log all errors
     dp.add_error_handler(error)
