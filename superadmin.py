@@ -4,9 +4,9 @@ from config import creator
 
 
 def creator_only(func):
-    def isCreator(bot, update, args):
+    def isCreator(bot, update, **args):
         if update.message.from_user.id in creator:
-            func(bot, update, args)
+            func(bot, update, **args)
         else:
             update.message.reply_text('who are you? my lordy told me never to talk to strangers... *runs away*', quote=False)
     return isCreator
