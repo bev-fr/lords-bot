@@ -4,9 +4,9 @@ from config import creator
 
 
 def creator_only(func):
-    def isCreator(bot, update, **args):
+    def isCreator(bot, update, *args, **kwargs):
         if update.message.from_user.id in creator:
-            func(bot, update, **args)
+            func(bot, update, *args, **kwargs)
         else:
             update.message.reply_text('who are you? my lordy told me never to talk to strangers... *runs away*', quote=False)
     return isCreator
@@ -40,12 +40,12 @@ def adminsend(bot, update, args):
 
 
 def sAdmin_only(func):
-    def isAdmin(bot, update, args):
+    def isAdmin(bot, update, *args, **kwargs):
         adminId = update.message.from_user.id
         isAdmin = bredis.superadmin.check(adminId)
         args = []
         if isAdmin is True:
-            func(bot, update, args)
+            func(bot, update, *args, **kwargs)
         else:
             update.message.reply_text('who are you? my lordy told me never to talk to strangers... *runs away*', quote=False)
     return isAdmin
@@ -59,7 +59,7 @@ def block_user(bot, update, args):
     update.message.reply_text('`{}` has been blocked from setting their own welcome'.format(blockedId), quote=False, parse_mode='Markdown')
 
 @sAdmin_only
-def list_blocked_users(bot, update, args):
+def list_blocked_users(bot, update):
     blockedUsers = bredis.blocked.get()
     resp = []
     for i  in blockedUsers:
