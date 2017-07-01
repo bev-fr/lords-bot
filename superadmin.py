@@ -77,6 +77,5 @@ def send(bot, update, args):
 #    except:
     except Exception as e:
         exc_type, exc_value, exc_traceback = sys.exc_info()
-        #msg = traceback.format_exception(exc_type, exc_value, exc_traceback)[-1]
-        msg = e
+        msg = traceback.format_exception(exc_type, exc_value, exc_traceback)[-1]
         update.message.reply_text(msg, quote=False)
