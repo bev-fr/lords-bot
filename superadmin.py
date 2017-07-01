@@ -1,3 +1,5 @@
+import traceback
+import sys
 import bredis
 import utils
 from config import creator
@@ -70,5 +72,11 @@ def send(bot, update, args):
     gid = args[0]
     del args[0]
     msg = ' '.join(args)
-    bot.sendMessage(gid, msg, parse_mode='Markdown')
-
+    try:
+        bot.sendMessage(gid, msg, parse_mode='Markdown')
+#    except:
+    except Exception as e:
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        #msg = traceback.format_exception(exc_type, exc_value, exc_traceback)[-1]
+        msg = e
+        update.message.reply_text(msg, quote=False)
