@@ -8,21 +8,24 @@ from superadmin import sAdmin_only
 def set_welc_self(bot, update, args):
     uid = update.message.from_user.id
     isBlocked = bredis.blocked.check(uid) 
-    if isBlocked is True:
-        return None
-    elif args == []:
-        welc = bredis.getwelc(uid)
-        if welc != None:
-            resp = "Your current welcome message is:\n{}"
-        else:
-            resp = "You do not currently have a welcome message, please PM me to set one"
-        update.message.reply_text(resp.format(welc), quote=False, parse_mode='Markdown')
+    if isBlocked is True: return None
+    if args == [] and update.message.reply_to_message is None:
+        return_personal_welc(update)
     else:
         welc_msg = args
         set_welc(bot, update, uid, welc_msg)
         resp = "Your welcome message was set to:\n{}" 
         update.message.reply_text(resp.format(bredis.getwelc(uid)), quote=False, parse_mode='Markdown')
 
+#Returns a user's welcome nicely
+def return_personal_welc(update):
+    uid = update.message.from_user.id
+    welc = bredis.getwelc(uid)
+    if welc != None:
+        resp = "Your current welcome message is:\n{}"
+    else:
+        resp = "You do not currently have a welcome message, please PM me to set one"
+    update.message.reply_text(resp.format(welc), quote=False, parse_mode='Markdown')
 
 #This is /setwelc
 @sAdmin_only
@@ -59,7 +62,7 @@ def set_welc(bot, update, uid, message):
                         uid=uid,
                         username=user.username,
                         welc=welc_msg,
-                        chatid=chatidi
+                        chatid=chatid
                         )
                     )
     else:
