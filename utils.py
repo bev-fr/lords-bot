@@ -16,7 +16,9 @@ def escape_markdown(text):
     return re.sub(r'([%s])' % escape_chars, r'\\\1', text)
 
 
-def info(bot, update):
+def info(bot, update, args):
+    if args == ['full']:
+        update.message.reply_text(str(update.message.reply_to_message))
     if update.message.reply_to_message:
         user = update.message.reply_to_message.from_user
         timestamp = update.message.reply_to_message.date
