@@ -91,8 +91,6 @@ def error(bot, update, error):
 
 
 def test(bot, update, args):
-    print(creator)
-    file_id = 'CgADBAADfg4AAhMcZAcMGjIBsWL2AgI'
     update.message.reply_text(str(update.message))
     update.message.reply_document(document=file_id,
             quote=False,
@@ -110,8 +108,6 @@ def grouplist(bot, update):
     for i in raw_groups:
         groups.append(str(i))
     resp = "{num} groups have been logged.\n {groups}"
-    print(groups)
-    print(raw_groups)
     update.message.reply_text(
             resp.format(
                 num=len(groups),
