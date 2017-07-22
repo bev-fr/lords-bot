@@ -21,11 +21,15 @@ def set_welc_self(bot, update, args):
 def return_personal_welc(update):
     uid = update.message.from_user.id
     welc = bredis.getwelc(uid)
-    if welc != None:
-        resp = "Your current welcome message is:\n{}"
+    welc_type = bredis.welcome.type.get(uid)
+    resp = "Your current welcome message is:\n{}"
+    if welc_type == 'gif':
+        file_id = bredis.welcome.file_id.get(uid)
+        update.message.reply_document(file_id, caption=welc, quote=False) 
     else:
-        resp = "You do not currently have a welcome message, please PM me to set one"
-    update.message.reply_text(resp.format(welc), quote=False, parse_mode='Markdown')
+        if welc == None:
+            resp = "You do not currently have a welcome message, please PM me to set one"
+        update.message.reply_text(resp.format(welc), quote=False, parse_mode='Markdown')
 
 #This is /setwelc
 @sAdmin_only
