@@ -1,7 +1,9 @@
 import bredis
+from telegram import Bot
 from mwt import MWT
 from config import log_channel
 from superadmin import sAdmin_only
+from utils import escape_markdown
 
 
 #This is /mywelc
@@ -17,20 +19,30 @@ def set_welc_self(bot, update, args):
         welc_msg = args
         set_welc(bot, update, uid, welc_msg)
         msg = "Your welcome message was set to:\n{}" 
-    return_personal_welc(update, msg)
+    uid = update.message.from_user.id
+    chatid = update.message.chat.id
+    return_personal_welc(bot, uid, chatid, msg)
 
 #Returns a user's welcome nicely
-def return_personal_welc(update, msg):
-    uid = update.message.from_user.id
+def return_personal_welc(bot, uid, chatid, msg):
     welc = bredis.getwelc(uid)
     welc_type = bredis.welcome.type.get(uid)
     if welc_type == 'gif':
-        file_id = bredis.welcome.file_id.get(uid)
-        update.message.reply_document(file_id, caption=welc, quote=False) 
+        file_id = str(bredis.welcome.file_id.get(uid))
+    #    update.message.reply_document(file_id, caption=welc, quote=False) 
+        bot.sendDocument(
+                chat_id=chatid,
+                document=file_id,
+                caption=welc)
     else:
         if welc == None:
             msg = "You do not currently have a welcome message, please PM me to set one"
-        update.message.reply_text(msg.format(welc), quote=False, parse_mode='Markdown')
+        bot.sendMessage(
+                chat_id=chatid,
+                text=msg.format(welc),
+                disable_web_page_preview=True,
+                parse_mode='Markdown')
+        #update.message.reply_text(msg.format(welc), quote=False, parse_mode='Markdown')
 
 #This is /setwelc
 @sAdmin_only
@@ -79,11 +91,11 @@ def set_welc(bot, update, uid, message):
         bot.sendMessage(
                 log_channel,
                 log_msg.format(
-                    fname=user.first_name,
-                    lname=user.last_name,
+                    fname=escape_markdown(user.first_name),
+                    lname=escape_markdown(user.last_name),
                     setter_id=user.id,
                     uid=uid,
-                    username=user.username,
+                    username=escape_markdown(user.username),
                     welc=welc_msg,
                     chatid=chatid
                     ),
@@ -131,9 +143,10 @@ def get(bot, update, args):
         uid = update.message.reply_to_message.from_user.id
     else:
         uid = int(args[0])
-    welc = bredis.getwelc(uid)
-    msg = "This is `{0}`'s welcome message:\n{1}".format(uid, welc)
+    msg = "This is `{0}`'s welcome message:"
     update.message.reply_text(msg, quote=False, parse_mode='Markdown')
+    chatid = update.message.chat.id
+    return_personal_welc(bot, uid, chatid, msg)
 
 
 #Checks if a user has a welcome and sends it
