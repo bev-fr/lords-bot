@@ -152,6 +152,8 @@ def get(bot, update, args):
 #Checks if a user has a welcome and sends it
 def msg(bot, update):
     user = update.message.new_chat_member
+    if user is None:
+        user = update.message.from_user
     rawwelc = bredis.getwelc(user.id)
     uid = user.id
     welc = "{0} `({1})`".format(rawwelc, uid)
@@ -175,8 +177,13 @@ def msg(bot, update):
 
     else:
         uid = update.message.chat.id
+        if user.username == '':
+            user.username = "NoUsername"
+        if user.last_name == '':
+            user.last_name = 'NoLastname' 
         if msg_type == 'gif':
-            groupwelc = bredis.getwelc(update.message.chat.id).format(fname=user.first_name,
+            groupwelc = bredis.getwelc(update.message.chat.id).format(
+                fname=user.first_name,
                 lname=user.last_name,
                 uid=user.id,
                 username=user.username)
