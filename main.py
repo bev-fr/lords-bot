@@ -36,11 +36,12 @@ def start(bot, update):
 
 
 def helpm(bot, update):
+    resp = "User Commands:\n/u - Get info about the user \n\nGroup Admin Commands:\n/groupwelc - allows you to set the welcome message for the group. \n\nYou can use these variables to add info about the user into the welcome message:\n{uid} - the user's ID\n{fanme} - the user's first name\n{lname} - the user's last name\n{username} - the user's username \n\nCustom Welcomes: \nUse /mywelc to set your custom welcome. You can also reply to a gif to add it to your welcome. Example: t.me/benthe/7"
     if update.message.chat.id > 0:
-        update.message.reply_text("User Commands:\n/u - Get info about the user \n\nGroup Admin Commands:\n/groupwelc - allows you to set the welcome message for the group. \n\nYou can use these variables to add info about the user into the welcome message:\n{uid} - the user's ID\n{fanme} - the user's first name\n{lname} - the user's last name\n{username} - the user's username \n\nCustom Welcomes: \nI can also do custom welcome messages please PM @benthecat to get one")
+        update.message.reply_text(resp, disable_web_page_preview=True)
     else:
         try:
-            bot.sendMessage(update.message.from_user.id, )
+            bot.sendMessage(update.message.from_user.id, resp, disable_web_page_preview=True)
         except Unauthorized:
             update.message.reply_text("Please PM me first ~")
 
@@ -72,11 +73,8 @@ def stab(bot, update):
     if update.message.from_user.id in creator:
         msg = "*stab stab stabs {1}*"
     else:
-        if update.message.reply_to_message.from_user.id == creator:
-            if update.message.from_user.id == 252424970:
-                msg = "nooooooooo not my lordy! *takes knife and stab stab stabs Sheryl the lid*"
-            else:
-                msg = "nooooooooo not my lordy! *takes knife and stab stab stabs {0}*"
+        if update.message.reply_to_message.from_user.id in creator:
+            msg = "nooooooooo! *takes knife and stab stab stabs {0}*"
         else:
             msg = "*cautiously hands knife to {0} 🙈🙈🙈*"
     update.message.reply_text(msg.format(update.message.from_user.first_name, update.message.reply_to_message.from_user.first_name))
@@ -90,14 +88,6 @@ def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))
 
 
-def test(bot, update, args):
-    update.message.reply_text(str(update.message))
-    update.message.reply_document(document=file_id,
-            quote=False,
-            parse_mode='Markdown',
-            disable_web_page_preview=True)
-
-
 def logGroupIds(bot ,update):
     if update.message.chat.id < 0:
         bredis.groupList.add(update.message.chat.id)
@@ -107,7 +97,7 @@ def grouplist(bot, update):
     groups = []
     for i in raw_groups:
         groups.append(str(i))
-    resp = "{num} groups have been logged.\n {groups}"
+    resp = "{num} groups \n{groups}"
     update.message.reply_text(
             resp.format(
                 num=len(groups),
@@ -129,7 +119,7 @@ def main():
     ###Commands
     #all users
     dp.add_handler(CommandHandler("u", utils.info, pass_args=True))
-    dp.add_handler(CommandHandler("test", test, pass_args=True))
+    dp.add_handler(CommandHandler("test", welcome.msg))
     dp.add_handler(CommandHandler("start@benthebot", start))
     dp.add_handler(CommandHandler("help", helpm))
     dp.add_handler(CommandHandler("hug", hug, pass_args=True))
