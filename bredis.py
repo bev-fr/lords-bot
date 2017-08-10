@@ -67,6 +67,11 @@ class welcome:
             else:
                 return r.hget('Group:{0}'.format(uid), 'file_id')
 
+    def exists(uid):
+        if int(uid) >= 0:
+            return r.hexists('Player:{0}'.format(str(uid)), 'welcome')
+        else:
+            return r.hexists('Group:{0}'.format(str(uid)), 'welcome')
 
 #class group:
 #    def setwelc(msg, uid):
@@ -91,9 +96,6 @@ def getwelc(uid):
         return r.hget('Player:{0}'.format(uid), 'welcome')
     else:
         return r.hget('Group:{0}'.format(uid), 'welcome')
-
-def exists(uid):
-    return r.exists('Player:{0}'.format(str(uid)))
 
 def adduser(uid, fname, lname, uname):
     r.hmset('Player:{0}'.format(uid), {'username': uname, 'fname': fname, 'lname': lname})

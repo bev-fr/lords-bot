@@ -157,10 +157,9 @@ def msg(bot, update):
     rawwelc = bredis.getwelc(user.id)
     uid = user.id
     welc = "{0} `({1})`".format(rawwelc, uid)
-    exists = bredis.exists(user.id)
+    exists = bredis.welcome.exists(user.id)
     msg_type = bredis.welcome.type.get(uid)
     file_id = bredis.welcome.file_id.get(uid)
-
     if rawwelc != None and exists == 1: 
         if msg_type == 'gif':
             welc = "{0} ({1})".format(rawwelc, uid)
@@ -176,42 +175,42 @@ def msg(bot, update):
                     disable_web_page_preview=True)
 
     else:
-        uid = update.message.chat.id
+        groupid = update.message.chat.id
+        msg_type = bredis.welcome.type.get(groupid)
         if user.username == '':
             user.username = "NoUsername"
         if user.last_name == '':
             user.last_name = 'NoLastname' 
+        #check if a group has a welcome with text
+        if bredis.welcome.exists(groupid) == 1:
+            groupwelc = bredis.getwelc(groupid).format(
+                fname=user.first_name,
+                lname=user.last_name,
+                uid=user.id,
+                username=user.username)
+        else:
+            groupwelc = None
+        #Check message type
         if msg_type == 'gif':
-            try:
-                groupwelc = bredis.getwelc(update.message.chat.id).format(
-                    fname=user.first_name,
-                    lname=user.last_name,
-                    uid=user.id,
-                    username=user.username)
-            except:
-                  traceback.print_exc()
+            file_id = bredis.welcome.file_id.get(groupid)
+            #then we send the gifs with or without captions
             if groupwelc != None:
                 update.message.reply_document(document=file_id,
                         quote=False,
-                        parse_mode='Markdown',
                         disable_web_page_preview=True,
                         caption=groupwelc)
             else:
-                return None 
+                update.message.reply_document( document=file_id,
+                        quote=False)
+        elif groupwelc != None:
+        #text welcomes
+            try:
+                update.message.reply_text(groupwelc,
+                        quote=False,
+                        parse_mode='Markdown',
+                        disable_web_page_preview=True)
+            except:
+                update.message.reply_text(groupwelc,
+                        quote=False)
         else:
-            groupwelc = bredis.getwelc(update.message.chat.id).format(fname=user.first_name,
-                    lname=user.last_name,
-                    uid=user.id,
-                    username=user.username)
-            if groupwelc != None:
-                try:
-                    update.message.reply_text(groupwelc,
-                            quote=False,
-                            parse_mode='Markdown',
-                            disable_web_page_preview=True)
-                except:
-                    update.message.reply_text(groupwelc,
-                            quote=False)
-            else:
-                return None 
-
+            return None 
