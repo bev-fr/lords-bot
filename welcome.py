@@ -182,11 +182,14 @@ def msg(bot, update):
         if user.last_name == '':
             user.last_name = 'NoLastname' 
         if msg_type == 'gif':
-            groupwelc = bredis.getwelc(update.message.chat.id).format(
-                fname=user.first_name,
-                lname=user.last_name,
-                uid=user.id,
-                username=user.username)
+            try:
+                groupwelc = bredis.getwelc(update.message.chat.id).format(
+                    fname=user.first_name,
+                    lname=user.last_name,
+                    uid=user.id,
+                    username=user.username)
+            except:
+                  traceback.print_exc()
             if groupwelc != None:
                 update.message.reply_document(document=file_id,
                         quote=False,
