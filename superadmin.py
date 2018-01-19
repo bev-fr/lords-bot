@@ -33,6 +33,14 @@ def adminsend(bot, update, args):
     for uid in bredis.superadmin.get():
         bot.sendMessage(uid, ' '.join(args).format(u=update.message.from_user.id))
 
+@creator_only
+def list_admins(bot, update, args):
+    resp = []
+    for uid in bredis.superadmin.get():
+        name = bredis.user.name(uid)
+        resp.append(str(name)+' '+str(uid))
+    update.message.reply_text('\n'.join(resp))
+    
 
 def sAdmin_only(func):
     def isAdmin(bot, update, *args, **kwargs):
@@ -44,7 +52,6 @@ def sAdmin_only(func):
         else:
             update.message.reply_text('who are you? my lordy told me never to talk to strangers... *runs away*', quote=False)
     return isAdmin
-
 
 ###SuperAdmin Only
 @sAdmin_only

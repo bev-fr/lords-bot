@@ -8,8 +8,6 @@ from background import background
 import bredis 
 
 
-
-
 def escape_markdown(text):
     """Helper function to escape telegram markup symbols"""
     escape_chars = '\*_`\['
