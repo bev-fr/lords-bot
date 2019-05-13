@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, BaseFilter, InlineQueryHandler
@@ -125,7 +125,6 @@ def main():
     dp.add_handler(CommandHandler("hug", hug, pass_args=True))
     dp.add_handler(CommandHandler("stab", stab))
     dp.add_handler(CommandHandler("stab", stab))
-    dp.add_handler(CommandHandler("sys", utils.sys_info))
     dp.add_handler(CommandHandler("redis", utils.redis_info, pass_args=True))
     dp.add_handler(CommandHandler("mywelc", welcome.set_welc_self, pass_args=True))
     dp.add_handler(CommandHandler("groups", grouplist))
@@ -147,7 +146,6 @@ def main():
     dp.add_handler(CommandHandler("trust", superadmin.add, pass_args=True))
     dp.add_handler(CommandHandler("bsend", superadmin.send, pass_args=True))
     dp.add_handler(CommandHandler("adminsend", superadmin.adminsend, pass_args=True))
-    dp.add_handler(CommandHandler("krand", utils.kahoot_rand, pass_args=True))
     dp.add_handler(CommandHandler("listadmins", superadmin.list_admins, pass_args=True))
     
     # non commands

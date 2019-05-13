@@ -2,7 +2,6 @@ import telegram as tg
 import telegram.ext as tg_ext
 import re
 import datetime
-import psutil
 from subprocess import call
 from background import background
 import bredis 
@@ -45,25 +44,17 @@ def addUserToResp(user, resp):
     	resp.append(escape_markdown('Last: {}'.format(user.last_name)))
     return resp
 
-def sys_info(bot, update):
-    msgSent = update.message.date
-    msgRecieved = datetime.datetime.now()
-    pingTime = msgRecieved - msgSent 
-    cpu = psutil.cpu_percent()
-    ram = psutil.virtual_memory().percent
-    resp = "Time to receive message: `{time}` \nCurrent CPU usage: `{cpu}%` \nCurrent RAM usage: `{ram}%`"
-    resp = resp.format(time=pingTime, cpu=cpu, ram=ram)
-    update.message.reply_text(resp, quote=False, parse_mode='Markdown')
+#def sys_info(bot, update):
+#    msgSent = update.message.date
+#    msgRecieved = datetime.datetime.now()
+#    pingTime = msgRecieved - msgSent 
+#    cpu = psutil.cpu_percent()
+#    ram = psutil.virtual_memory().percent
+#    resp = "Time to receive message: `{time}` \nCurrent CPU usage: `{cpu}%` \nCurrent RAM usage: `{ram}%`"
+#    resp = resp.format(time=pingTime, cpu=cpu, ram=ram)
+#    update.message.reply_text(resp, quote=False, parse_mode='Markdown')
 
 def redis_info(bot, update, args):
     resp = bredis.info('server')
     update.message.reply_text(resp["redis_version"])
 
-@background
-def kahoot_rand(bot, update, args):
-    gid = args[0]
-    nick = args[1]
-    num = args[2]
-    call(["./kahoot-rand", gid, nick, num])
-    resp="{num} bots started with the name \"{nick}\" on `{gid}`"
-    update.message.reply_text(resp.format(num=num, nick=nick, gid=gid), parse_mode='Markdown')
