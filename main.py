@@ -62,7 +62,7 @@ def hug(bot, update, args):
                     msg.append("*hug*")
         else:
             msg.append("Too many, hugs rejected")
-    except ValueError:
+    except:
         msg.append("Insert how many hugs you want by typing : /hug <number>")
     replyMessage = update.message.reply_to_message
     if replyMessage is not None:
