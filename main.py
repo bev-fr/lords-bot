@@ -125,7 +125,6 @@ def main():
     dp.add_handler(CommandHandler("help", helpm))
     dp.add_handler(CommandHandler("hug", hug, pass_args=True))
     dp.add_handler(CommandHandler("stab", stab))
-    dp.add_handler(CommandHandler("stab", stab))
     dp.add_handler(CommandHandler("redis", utils.redis_info, pass_args=True))
     dp.add_handler(CommandHandler("mywelc", welcome.set_welc_self, pass_args=True))
     dp.add_handler(CommandHandler("groups", grouplist))
