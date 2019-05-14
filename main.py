@@ -25,10 +25,13 @@ logger.addHandler(hdlr)
 logger = logging.getLogger(__name__)
 
 
-class WelcomeFilter(BaseFilter):
-        def filter(self, message):
-            return bool(message.new_chat_member)
-welcome_filter = WelcomeFilter()
+#class WelcomeFilter(BaseFilter):
+#        def filter(self, message):
+#            if message.new_chat_member:
+#                return True
+#            else:
+#                return False
+#welcome_filter = WelcomeFilter()
 
 
 def start(bot, update):
@@ -97,12 +100,10 @@ def grouplist(bot, update):
     groups = []
     for i in raw_groups:
         groups.append(str(i))
-    resp = "{num} groups \n{groups}"
+    resp = "I have seen {num} groups!"
     update.message.reply_text(
             resp.format(
-                num=len(groups),
-                groups='\n'.join(groups)
-                ),
+                num=len(groups)),
             quote=False,
             parse_mode='Markdown')
 
@@ -149,7 +150,7 @@ def main():
     dp.add_handler(CommandHandler("listadmins", superadmin.list_admins, pass_args=True))
     
     # non commands
-    dp.add_handler(MessageHandler(welcome_filter, welcome.msg))
+    dp.add_handler(MessageHandler(Filters.status_update.new_chat_members, welcome.msg))
     dp.add_handler(MessageHandler(Filters.text, logGroupIds))
 
     # log all errors

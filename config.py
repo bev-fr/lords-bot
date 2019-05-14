@@ -10,3 +10,4 @@ for section in cfg:
     log = str(cfg['log'])
     creator = cfg['creators']
     log_channel = cfg['log_channel']
+    redisport = cfg['redis-port']

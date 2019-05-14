@@ -1,8 +1,9 @@
 import redis
+from config import redisport
 
 r = redis.Redis(
         host='localhost',
-        port=6380,
+        port=redisport,
         charset="utf-8", 
         decode_responses=True)
         
